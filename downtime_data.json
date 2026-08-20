@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "downtimes": [
+    {
+      "uid": "dt-1787206933603-ov7d6tv",
+      "name": "DT_1",
+      "reason": "test 1",
+      "startDate": "2026-09-21",
+      "duration": 1,
+      "afterOriginalId": 2,
+      "sequence": 0
+    },
+    {
+      "uid": "dt-1787207062708-9zyu1ng",
+      "name": "DT_2",
+      "reason": "test 2",
+      "startDate": "2026-12-04",
+      "duration": 1,
+      "afterOriginalId": 5,
+      "sequence": 1
+    }
+  ],
+  "dependencyOverrides": [
+    {
+      "taskOriginalId": 3,
+      "downtimeUid": "dt-1787206933603-ov7d6tv"
+    },
+    {
+      "taskOriginalId": 6,
+      "downtimeUid": "dt-1787207062708-9zyu1ng"
+    }
+  ]
+}
