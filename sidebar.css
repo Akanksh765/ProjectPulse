@@ -1,0 +1,143 @@
+/* =========================================================
+   ProjectPulse Navigation
+   Hidden by default; reveals when the mouse reaches the
+   small trigger strip at the left edge of the screen.
+   ========================================================= */
+
+.sidebar {
+    width: 260px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 2000;
+
+    /* Leave only a tiny edge visible as the hover target. */
+    transform: translateX(-252px);
+    transition: transform 0.25s ease;
+
+    background: #0f172a;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+    box-shadow: 3px 0 20px rgba(0, 0, 0, .20);
+
+    /* The sidebar is fixed, so it must never consume layout width. */
+    flex: none;
+}
+
+.sidebar:hover {
+    transform: translateX(0);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 40px;
+}
+
+.logo i {
+    font-size: 28px;
+    color: #3b82f6;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.menuItem {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: .3s;
+    font-size: 15px;
+}
+
+.menuItem:hover {
+    background: #1e293b;
+    transform: translateX(5px);
+}
+
+.menuItem.active {
+    background: #2563eb;
+}
+
+.menuItem i {
+    width: 22px;
+    text-align: center;
+}
+
+.profile {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 25px;
+    border-top: 1px solid rgba(255,255,255,.15);
+}
+
+.avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #3b82f6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.userInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.userInfo span:first-child {
+    font-weight: 600;
+}
+
+.userInfo span:last-child {
+    font-size: 12px;
+    opacity: .7;
+}
+
+/* The sidebar is fixed and overlays the application when open. */
+#sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 260px;
+    height: 100vh;
+    z-index: 2000;
+    pointer-events: none;
+}
+
+#sidebar .sidebar {
+    pointer-events: auto;
+}
+
+/* Keep a very small, unobtrusive hover target at the screen edge. */
+#sidebar::after {
+    content: "";
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 8px;
+    height: 100vh;
+    pointer-events: auto;
+}
+
+/* Hovering the visible edge opens the actual sidebar. */
+#sidebar:hover .sidebar {
+    transform: translateX(0);
+}

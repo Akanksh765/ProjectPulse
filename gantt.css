@@ -1,0 +1,1043 @@
+.ganttContainer{
+
+margin-top:30px;
+
+background:white;
+
+border-radius:15px;
+
+padding:20px;
+
+box-shadow:0 4px 15px rgba(0,0,0,.08);
+
+overflow-x:auto;
+
+-webkit-overflow-scrolling:touch;
+
+}
+
+/*----------------------------------------------------------
+        Dedicated Gantt Page
+----------------------------------------------------------*/
+/* The Gantt page gets the full content area instead of a fixed
+   min-height block wedged under a task table, so it stays usable
+   as the task count grows - it scrolls internally (both axes)
+   instead of pushing the rest of a long page further down. */
+
+.ganttPageWrapper{
+
+display:flex;
+
+flex-direction:column;
+
+height:100%;
+
+}
+
+.ganttPageContainer{
+
+flex:1;
+
+margin-top:15px;
+
+display:flex;
+
+flex-direction:column;
+
+min-height:0;
+
+}
+
+.ganttPageContainer #ganttContainer{
+
+flex:1;
+
+}
+
+.ganttEmpty{
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+justify-content:center;
+
+height:100%;
+
+min-height:300px;
+
+gap:14px;
+
+color:#94a3b8;
+
+text-align:center;
+
+}
+
+.ganttEmpty i{
+
+font-size:36px;
+
+}
+
+#gantt{
+
+min-width:1200px;
+
+overflow:auto;
+
+}
+
+/*----------------------------------------------------------
+            Toolbar
+----------------------------------------------------------*/
+
+.ganttToolbar{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+gap:12px;
+
+flex-wrap:wrap;
+
+margin-bottom:15px;
+
+}
+
+.ganttToolbar h3{
+
+margin:0;
+
+font-size:18px;
+
+font-weight:600;
+
+color:#1e293b;
+
+}
+
+.ganttToolbar select{
+
+padding:6px 10px;
+
+border:1px solid #e2e8f0;
+
+border-radius:8px;
+
+background:#f8fafc;
+
+font-size:13px;
+
+color:#334155;
+
+cursor:pointer;
+
+}
+
+/*----------------------------------------------------------
+            Scroll Container
+----------------------------------------------------------*/
+
+#ganttContainer{
+
+    width:100%;
+    min-height:0;
+    height:100%;
+
+    overflow:auto;
+    overscroll-behavior:contain;
+
+    position:relative;
+
+    background:#ffffff;
+
+    border:1px solid #dcdcdc;
+
+    border-radius:8px;
+
+    padding:8px;
+
+    box-sizing:border-box;
+
+}
+
+.ganttTable{
+
+border-collapse:collapse;
+
+/* Width is set by JS from the exact 40px/day geometry. Do not let the
+   browser shrink the timeline columns to fit the viewport. */
+width:max-content;
+min-width:max-content;
+table-layout:fixed;
+
+}
+
+.ganttTable th{
+
+position:sticky;
+
+top:0;
+
+background:#f8fafc;
+
+z-index:10;
+
+border:1px solid #e2e8f0;
+
+padding:10px 6px;
+
+font-size:12px;
+
+white-space:nowrap;
+
+text-align:center;
+
+}
+
+/* Row 1: section labels - Activity / Task Details / Gantt Chart */
+.ganttHeaderSection th{
+    background:#eef2ff;
+    font-weight:700;
+    font-size:12px;
+    letter-spacing:.03em;
+    text-transform:uppercase;
+    color:#334155;
+    border-bottom:2px solid #e2e8f0;
+}
+
+/* Row 2: Start / Duration / Dependency / Progress column names,
+   plus the Month headers for the weekly timeline */
+.ganttHeaderColumns th{
+    background:#f8fafc;
+    font-weight:600;
+    font-size:11px;
+    border-bottom:1px solid #e2e8f0;
+}
+
+/* Row 3: Weekly start-date headers (e.g. 05 Jan, 12 Jan, ...) */
+.ganttHeaderWeek th{
+    background:#f8fafc;
+    font-weight:600;
+    font-size:11px;
+    border-bottom:1px solid #e2e8f0;
+}
+
+/* Sticky corner cell (Activity section label) - stays fixed in both
+   directions. Scoped to the section row specifically (rather than a
+   bare th:first-child) because the Start/Duration/Dependency/Progress
+   and Week header rows below it don't have their own first-column
+   cell at all - it's supplied by this row's rowSpan. */
+.ganttHeaderSection th:first-child{
+
+position:sticky;
+
+left:0;
+
+z-index:12;
+
+text-align:left;
+
+border-right:2px solid #e2e8f0;
+
+}
+
+.ganttTable td{
+
+/* Allow a task bar to extend across following day cells. */
+overflow: visible !important;
+
+border-top:1px solid #e2e8f0;
+
+border-bottom:1px solid #e2e8f0;
+
+/* Subtle dotted line between each day, rather than a heavy solid
+   border repeated on every column - keeps the daily grid readable
+   without becoming visually noisy. */
+border-right:1px dashed #e5e7eb;
+
+height:32px;
+
+width:16px;
+min-width:16px;
+max-width:16px;
+box-sizing:border-box;
+position:relative;
+
+padding:0;
+
+}
+
+.ganttTable td:first-of-type{
+
+border-left:1px solid #e2e8f0;
+
+}
+
+/* Bars are absolutely positioned and can extend past their own
+   cell's width to reach their real end date - make sure they paint
+   above neighbouring cells instead of getting visually clipped. */
+.ganttBarContainer{
+
+position:absolute;
+z-index:20;
+overflow:hidden;
+box-sizing:border-box;
+}
+
+.ganttError{
+
+display:flex;
+
+align-items:center;
+
+gap:10px;
+
+padding:18px;
+
+margin:10px 0;
+
+background:#fef3f3;
+
+border:1px solid #fecaca;
+
+border-radius:10px;
+
+color:#991b1b;
+
+font-size:14px;
+
+line-height:1.5;
+
+}
+
+.ganttError i{
+
+font-size:18px;
+
+flex-shrink:0;
+
+}
+
+/*----------------------------------------------------------
+            Sticky Task Column
+----------------------------------------------------------*/
+
+.ganttTable td.taskName{
+
+position:sticky;
+
+left:0;
+
+background:white;
+
+min-width:250px;
+
+max-width:320px;
+
+font-weight:600;
+
+padding:8px 15px;
+
+z-index:5;
+
+border-right:2px solid #e2e8f0;
+
+box-shadow:2px 0 6px rgba(0,0,0,.04);
+
+overflow:hidden;
+
+text-overflow:ellipsis;
+
+white-space:nowrap;
+
+vertical-align:middle;
+
+}
+
+.gridCell{
+
+background:white;
+overflow:visible !important;
+
+}
+
+/* Weekly grid cell (replaces the old per-day cell). Pixel width is
+   set inline from JS (weekWidth = dayWidth * 7) so it always matches
+   the geometry the bar-placement math uses - see gantt.js. */
+.ganttTable td.weekCell{
+    padding:0;
+}
+
+/*----------------------------------------------------------
+        TASK DETAILS section (Start / Duration / Dependency /
+        Progress) - frozen columns between Activity and the
+        Gantt timeline, kept in the same <tr> as both so the
+        three sections can never fall out of row alignment.
+----------------------------------------------------------*/
+
+.ganttTable td.detailCell{
+    position:sticky;
+    background:#ffffff;
+    z-index:5;
+    padding:6px 8px;
+    vertical-align:middle;
+    text-align:left;
+    white-space:normal;
+    border-right:1px solid #eef2f7;
+    box-shadow:2px 0 6px rgba(0,0,0,.03);
+}
+
+.ganttTable td.detailCell input,
+.ganttTable td.detailCell select{
+    width:100%;
+    box-sizing:border-box;
+    font-size:12px;
+    font-family:inherit;
+    color:#334155;
+    border:1px solid #e2e8f0;
+    border-radius:6px;
+    padding:4px 6px;
+    background:#f8fafc;
+}
+
+.ganttTable td.detailCell input:disabled{
+    background:#f1f5f9;
+    color:#94a3b8;
+    cursor:not-allowed;
+}
+
+.ganttTable td.detailCell input:focus,
+.ganttTable td.detailCell select:focus{
+    outline:2px solid #93c5fd;
+    outline-offset:1px;
+    background:#ffffff;
+}
+
+.ganttDurationWrap{
+    display:flex;
+    align-items:center;
+    gap:4px;
+}
+
+.ganttDurationInput{
+    width:48px !important;
+    flex:none;
+}
+
+.ganttDurationUnit{
+    font-size:11px;
+    color:#64748b;
+    white-space:nowrap;
+}
+
+.ganttProgressText{
+    margin-top:3px;
+    font-size:11px;
+    color:#64748b;
+}
+
+.todayLine{
+
+position:absolute;
+
+width:2px;
+
+background:#ef4444;
+
+height:100%;
+
+z-index:100;
+
+}
+
+/* Bar container */
+.ganttBarContainer {
+    box-shadow:0 1px 3px rgba(0,0,0,.15);
+}
+
+/* Status-based bar colors - applied via JS */
+.bar {
+    background:#3b82f6;
+    border-radius:8px;
+    height:22px;
+    margin:8px 2px;
+}
+
+.bar.completed {
+    background:#22c55e;
+}
+
+.bar.progress {
+    background:#3b82f6;
+}
+
+.bar.delayed {
+    background:#ef4444;
+}
+
+.bar.critical {
+    background:#f97316;
+}
+
+.bar.notStarted {
+    background:#94a3b8;
+}
+
+/*----------------------------------------------------------
+            Responsive Layout
+----------------------------------------------------------*/
+
+@media (max-width:768px) {
+
+    .ganttContainer{
+        padding:12px;
+        margin-top:20px;
+        border-radius:10px;
+    }
+
+    .ganttToolbar{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .ganttToolbar select{
+        align-self:flex-end;
+    }
+
+    .ganttTable th{
+        font-size:10px;
+        padding:6px 3px;
+    }
+
+    .ganttTable td{
+        height:38px;
+    }
+
+    .ganttTable th:first-child{
+        min-width:150px;
+    }
+
+    .taskName{
+        min-width:150px;
+        max-width:180px;
+        padding:8px 10px;
+    }
+
+}
+
+/*==========================================================
+  Compact ProjectPulse Gantt layout
+  UI-only overrides: scheduling/date/dependency logic is untouched.
+==========================================================*/
+.ganttPageWrapper {
+    height:100%;
+    min-height:0;
+    overflow:hidden;
+    padding:18px 20px !important;
+}
+
+.ganttPageWrapper .header {
+    margin-bottom:10px;
+    flex-shrink:0;
+}
+
+.ganttPageWrapper .header h1 {
+    font-size:26px;
+}
+
+.ganttPageContainer {
+    min-height:0;
+    height:100%;
+    overflow:hidden;
+    margin-top:0;
+}
+
+.ganttPageContainer #ganttContainer {
+    min-height:0;
+    height:100%;
+    overflow:auto;
+    padding:6px;
+}
+
+.ganttTable th {
+    padding:6px 4px;
+}
+
+.ganttTable td.detailCell {
+    padding:4px 5px;
+}
+
+.ganttTable td.detailCell input,
+.ganttTable td.detailCell select {
+    font-size:11px;
+    padding:3px 4px;
+}
+
+.ganttBarContainer {
+    height:20px !important;
+    top:6px !important;
+}
+
+.ganttBarLabel {
+    font-size:9px !important;
+    left:5px !important;
+}
+
+/*==========================================================
+   ProjectPulse compact Gantt v3
+   - ID column before Activity
+   - Full activity names (no ellipsis)
+   - Compact weekly timeline
+   - All 21 rows visible without vertical scrolling on desktop
+==========================================================*/
+
+.ganttTable th {
+    padding: 5px 3px;
+    font-size: 9px;
+    line-height: 1.15;
+}
+
+.ganttHeaderSection th {
+    font-size: 9px;
+    letter-spacing: .02em;
+}
+
+.ganttHeaderColumns th,
+.ganttHeaderWeek th {
+    font-size: 8.5px;
+    padding: 4px 2px;
+}
+
+.ganttTable td {
+    height: 24px;
+    font-size: 10.5px;
+}
+
+.ganttTable td.taskIdCell {
+    position: sticky;
+    left: 0;
+    background: #ffffff;
+    z-index: 6;
+    text-align: center;
+    font-weight: 600;
+    color: #475569;
+    padding: 0 2px;
+    border-right: 1px solid #e2e8f0;
+    box-shadow: 2px 0 4px rgba(0,0,0,.025);
+    vertical-align: middle;
+}
+
+.ganttTable td.taskName {
+    position: sticky;
+    left: 42px;
+    background: #ffffff;
+    z-index: 6;
+    min-width: 330px;
+    max-width: 330px;
+    width: 330px;
+    font-size: 10.5px;
+    font-weight: 600;
+    padding: 2px 7px;
+    overflow: visible;
+    text-overflow: clip;
+    white-space: nowrap;
+    vertical-align: middle;
+    border-right: 2px solid #e2e8f0;
+    box-shadow: 2px 0 4px rgba(0,0,0,.025);
+}
+
+.ganttTable td.detailCell {
+    padding: 2px 4px;
+    font-size: 9.5px;
+}
+
+.ganttTable td.detailCell input,
+.ganttTable td.detailCell select {
+    font-size: 9px;
+    padding: 2px 3px;
+    height: 20px;
+    border-radius: 4px;
+}
+
+.ganttDurationWrap {
+    gap: 2px;
+}
+
+.ganttDurationInput {
+    width: 34px !important;
+}
+
+.ganttDurationUnit {
+    font-size: 8px;
+}
+
+.ganttProgressText {
+    margin-top: 1px;
+    font-size: 8px;
+    line-height: 1;
+}
+
+.ganttBarContainer {
+    height: 16px !important;
+    top: 4px !important;
+    border-radius: 3px;
+    box-shadow: none;
+}
+
+.ganttBarLabel {
+    left: 3px !important;
+    font-size: 7px !important;
+}
+
+/* Keep the fixed columns visually above the timeline while scrolling. */
+.ganttTable td.detailCell,
+.ganttTable td.taskName,
+.ganttTable td.taskIdCell {
+    z-index: 7;
+}
+
+.ganttHeaderSection th:nth-child(1) {
+    position: sticky;
+    left: 0;
+    z-index: 13;
+}
+
+.ganttHeaderSection th:nth-child(2) {
+    position: sticky;
+    left: 42px;
+    z-index: 13;
+    text-align: left;
+}
+
+/* The compact chart is intended to fit on one desktop viewport. */
+@media (min-width: 769px) {
+    .ganttPageContainer #ganttContainer {
+        overflow-y: hidden;
+    }
+}
+
+
+/* =========================================================
+   Final compact Gantt refinements
+   ========================================================= */
+
+/* Weekly date labels: rotate the label counter-clockwise so the date
+   reads vertically in the same direction as the reference layout.
+   Only the label is rotated; the table cell remains horizontal so the
+   weekly columns keep their normal width. */
+.ganttHeaderWeek th.ganttWeekHeaderCell {
+    position: relative;
+    white-space: nowrap;
+    vertical-align: middle;
+    text-align: center;
+    height: 42px;
+    padding: 0;
+    line-height: 1;
+    overflow: visible;
+}
+
+.ganttHeaderWeek th.ganttWeekHeaderCell > span {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    display: inline-block;
+    white-space: nowrap;
+    font-size: 8.5px;
+    line-height: 1;
+    transform: translate(-50%, -50%) rotate(-90deg);
+    transform-origin: center center;
+}
+
+/* Give the Duration cell enough room for both the number and the full
+   Week/Weeks unit without widening the rest of the task-details area. */
+.ganttDurationWrap {
+    justify-content: center;
+    gap: 3px;
+}
+
+.ganttDurationInput {
+    width: 32px !important;
+}
+
+.ganttDurationUnit {
+    font-size: 8.5px;
+    min-width: 27px;
+    white-space: nowrap;
+}
+
+/* Progress is represented by the status dropdown only; do not show a
+   duplicate numeric percentage underneath it. */
+.ganttProgressText {
+    display: none !important;
+}
+
+/* Bar labels are intentionally removed. Keep the tooltip on the bar so
+   task information remains available on hover. */
+.ganttBarLabel {
+    display: none !important;
+}
+
+/* Weekly view is fixed for this compact Gantt. Hide any legacy zoom/view
+   selector if an older cached page still renders the toolbar. */
+.ganttToolbar {
+    display: none !important;
+}
+
+/*==========================================================
+        Downtime task styling and creation UI
+==========================================================*/
+
+.ganttTaskLabel {
+    display:inline-block;
+    max-width:calc(100% - 34px);
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    vertical-align:middle;
+}
+
+.downtimeTaskLabel {
+    color:#b91c1c;
+    font-weight:700;
+}
+
+.downtimeAddBtn {
+    position:absolute;
+    right:5px;
+    top:50%;
+    transform:translateY(-50%);
+    width:20px;
+    height:20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid #fecaca;
+    border-radius:50%;
+    background:#fff;
+    color:#dc2626;
+    cursor:pointer;
+    opacity:.35;
+    transition:opacity .15s ease, background .15s ease, color .15s ease;
+    z-index:9;
+    padding:0;
+}
+
+.ganttTable tr:hover .downtimeAddBtn,
+.downtimeAddBtn:focus-visible {
+    opacity:1;
+}
+
+.downtimeAddBtn:hover {
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.downtimeBar {
+    background:#ef4444 !important;
+}
+
+.downtimeModalOverlay {
+    position:fixed;
+    inset:0;
+    z-index:2000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:rgba(15,23,42,.45);
+}
+
+.downtimeModal {
+    width:min(520px, 100%);
+    background:#fff;
+    border-radius:14px;
+    box-shadow:0 20px 50px rgba(15,23,42,.25);
+    padding:20px;
+}
+
+.downtimeModalHeader {
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:15px;
+    margin-bottom:18px;
+}
+
+.downtimeModalHeader h3 {
+    margin:0;
+    font-size:20px;
+    color:#1e293b;
+}
+
+.downtimeModalHeader p {
+    margin:4px 0 0;
+    font-size:12px;
+    color:#64748b;
+}
+
+.downtimeModalClose {
+    border:0;
+    background:transparent;
+    color:#64748b;
+    font-size:26px;
+    line-height:1;
+    cursor:pointer;
+}
+
+.downtimeField {
+    margin-bottom:14px;
+}
+
+.downtimeField label {
+    display:block;
+    margin-bottom:5px;
+    font-size:12px;
+    font-weight:600;
+    color:#334155;
+}
+
+.downtimeField input,
+.downtimeField textarea {
+    width:100%;
+    box-sizing:border-box;
+    border:1px solid #cbd5e1;
+    border-radius:8px;
+    padding:9px 10px;
+    font:inherit;
+    font-size:13px;
+    color:#334155;
+    background:#fff;
+    outline:none;
+}
+
+.downtimeField textarea {
+    resize:vertical;
+    min-height:76px;
+}
+
+.downtimeField input:focus,
+.downtimeField textarea:focus {
+    border-color:#ef4444;
+    box-shadow:0 0 0 3px rgba(239,68,68,.12);
+}
+
+.downtimeFormGrid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+}
+
+.downtimeDurationWrap {
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.downtimeDurationWrap input {
+    width:90px;
+}
+
+.downtimeDurationWrap span {
+    font-size:12px;
+    color:#64748b;
+}
+
+.downtimeFormError {
+    margin-bottom:12px;
+    padding:8px 10px;
+    border-radius:7px;
+    background:#fef2f2;
+    border:1px solid #fecaca;
+    color:#b91c1c;
+    font-size:12px;
+}
+
+.downtimeModalActions {
+    display:flex;
+    justify-content:flex-end;
+    gap:8px;
+    margin-top:18px;
+}
+
+.downtimeCancelBtn,
+.downtimeSubmitBtn {
+    border-radius:8px;
+    padding:8px 13px;
+    font:inherit;
+    font-size:12px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.downtimeCancelBtn {
+    border:1px solid #cbd5e1;
+    background:#fff;
+    color:#475569;
+}
+
+.downtimeSubmitBtn {
+    border:1px solid #dc2626;
+    background:#ef4444;
+    color:#fff;
+}
+
+.downtimeSubmitBtn:hover {
+    background:#dc2626;
+}
+
+@media (max-width:600px) {
+    .downtimeFormGrid {
+        grid-template-columns:1fr;
+        gap:0;
+    }
+}
+
+
+/* =========================================================
+   Persisted downtime controls
+   ========================================================= */
+
+.downtimeRemoveBtn {
+    position:absolute;
+    right:4px;
+    top:50%;
+    transform:translateY(-50%);
+    width:18px;
+    height:18px;
+    padding:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid #fecaca;
+    border-radius:50%;
+    background:#fff;
+    color:#ef4444;
+    font-size:9px;
+    line-height:1;
+    cursor:pointer;
+    opacity:0;
+    z-index:30;
+    transition:opacity .15s ease, background .15s ease, color .15s ease;
+}
+
+.ganttTable tr:hover .downtimeRemoveBtn,
+.downtimeRemoveBtn:focus {
+    opacity:1;
+}
+
+.downtimeRemoveBtn:hover {
+    background:#ef4444;
+    color:#fff;
+}
+
+.downtimeTaskLabel {
+    color:#dc2626;
+    font-weight:700;
+}

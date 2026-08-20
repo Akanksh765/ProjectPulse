@@ -1,0 +1,417 @@
+.dashboard{
+
+flex:1;
+
+height:100%;
+
+padding:30px;
+
+overflow:auto;
+
+background:#edf2f7;
+
+}
+
+.header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:25px;
+
+}
+
+.header h1{
+
+font-size:32px;
+
+font-weight:700;
+
+color:#1e293b;
+
+}
+
+.actions{
+
+display:flex;
+
+align-items:center;
+
+gap:15px;
+
+}
+
+.searchBox{
+
+width:300px;
+
+padding:12px;
+
+border-radius:10px;
+
+border:none;
+
+outline:none;
+
+box-shadow:0 2px 10px rgba(0,0,0,.08);
+
+}
+
+.sectionTitle{
+
+font-size:20px;
+
+font-weight:600;
+
+margin:25px 0 15px;
+
+color:#334155;
+
+}
+
+.comingSoon{
+
+background:white;
+
+border-radius:15px;
+
+padding:60px 20px;
+
+box-shadow:0 4px 15px rgba(0,0,0,.08);
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+justify-content:center;
+
+gap:14px;
+
+color:#94a3b8;
+
+text-align:center;
+
+}
+
+.comingSoon i{
+
+font-size:36px;
+
+color:#cbd5e1;
+
+}
+
+
+/*=========================================================
+                Dashboard V1 Overview
+=========================================================*/
+
+.dashboardHome {
+    min-height: 100%;
+}
+
+.dashboardKpis {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin-bottom: 26px;
+}
+
+.dashboardKpis .card {
+    min-height: 112px;
+}
+
+.dashboardKpis .cardValue {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dashboardOverviewGrid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.dashboardPanel {
+    background: #fff;
+    border-radius: 15px;
+    padding: 24px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.08);
+    min-width: 0;
+}
+
+.panelHeading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.panelHeading h3 {
+    margin: 0;
+    color: #1e293b;
+    font-size: 19px;
+    font-weight: 600;
+}
+
+.panelHeading p {
+    margin: 4px 0 0;
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+.progressContent {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    min-height: 210px;
+}
+
+.donutWrap {
+    position: relative;
+    width: 205px;
+    height: 205px;
+    flex: 0 0 205px;
+}
+
+.donutWrap canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.donutCenter {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.donutCenter strong {
+    color: #0f172a;
+    font-size: 29px;
+    line-height: 1.1;
+    font-weight: 700;
+}
+
+.donutCenter span {
+    color: #94a3b8;
+    font-size: 11px;
+    margin-top: 3px;
+}
+
+.progressLegend {
+    display: flex;
+    flex-direction: column;
+    gap: 17px;
+    flex: 1;
+}
+
+.progressLegendItem {
+    display: grid;
+    grid-template-columns: 10px 1fr auto;
+    align-items: center;
+    gap: 9px;
+    color: #475569;
+    font-size: 13px;
+}
+
+.progressLegendItem strong {
+    color: #0f172a;
+    font-size: 15px;
+}
+
+.legendDot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+}
+
+.legendDot.completed { background: #22c55e; }
+.legendDot.inProgress { background: #2563eb; }
+.legendDot.notStarted { background: #f59e0b; }
+
+.viewAllBtn {
+    border: 0;
+    background: transparent;
+    color: #2563eb;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    padding: 3px 0;
+}
+
+.viewAllBtn:hover {
+    color: #1d4ed8;
+}
+
+.upcomingList {
+    display: flex;
+    flex-direction: column;
+}
+
+.upcomingItem {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 0;
+    border-bottom: 1px solid #eef2f7;
+}
+
+.upcomingItem:last-child {
+    border-bottom: 0;
+}
+
+.upcomingIcon {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 13px;
+}
+
+.upcomingActivity {
+    color: #1e293b;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.upcomingMeta {
+    color: #94a3b8;
+    font-size: 11px;
+    margin-top: 3px;
+}
+
+.upcomingStatus {
+    font-size: 10px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.dashboardEmptyState {
+    color: #94a3b8;
+    font-size: 13px;
+    padding: 30px 0;
+    text-align: center;
+}
+
+.currentStatusPanel {
+    margin-bottom: 10px;
+}
+
+.currentStatusGrid {
+    display: grid;
+    grid-template-columns: minmax(220px, 1.8fr) repeat(2, minmax(110px, .7fr)) minmax(200px, 1.4fr);
+    gap: 0;
+    border: 1px solid #e8edf3;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.currentStatusGrid > div {
+    padding: 18px 20px;
+    min-width: 0;
+}
+
+.currentStatusGrid > div + div {
+    border-left: 1px solid #e8edf3;
+}
+
+.statusLabel {
+    display: block;
+    color: #94a3b8;
+    font-size: 11px;
+    margin-bottom: 6px;
+}
+
+.currentStatusGrid strong {
+    display: block;
+    color: #0f172a;
+    font-size: 14px;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.currentStatusMain strong {
+    color: #2563eb;
+}
+
+.statusPulse {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #64748b;
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+.statusPulse span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #22c55e;
+}
+
+@media (max-width: 1100px) {
+    .dashboardKpis {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .dashboardOverviewGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .currentStatusGrid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .currentStatusGrid > div:nth-child(3) {
+        border-left: 0;
+        border-top: 1px solid #e8edf3;
+    }
+
+    .currentStatusGrid > div:nth-child(4) {
+        border-top: 1px solid #e8edf3;
+    }
+}
+
+@media (max-width: 650px) {
+    .dashboardKpis {
+        grid-template-columns: 1fr;
+    }
+
+    .progressContent {
+        flex-direction: column;
+    }
+
+    .currentStatusGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .currentStatusGrid > div + div,
+    .currentStatusGrid > div:nth-child(3),
+    .currentStatusGrid > div:nth-child(4) {
+        border-left: 0;
+        border-top: 1px solid #e8edf3;
+    }
+}
